@@ -17,13 +17,12 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 # from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 from langchain_core.tools import tool
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # ========= 경로 설정 =========
 STORY_FILE = "story.txt"
 GROUND_TRUTH_FILE = "ground_truth_100_v3.json"
 VECTOR_DIR = "./chroma_story_rag"
-
 
 
 # ========= 전역 변수 (in-memory DB) =========
@@ -313,11 +312,11 @@ def create_lore_keeper_agent(model_name: str = "gpt-4o"):
 
 지금부터 주어진 문장을 분석해봐."""
 
-    # LangGraph의 create_react_agent 사용
-    agent = create_react_agent(
-        llm,
-        tools,
-        state_modifier=system_prompt,
+    # LangChain의 create_agent 사용 (LangGraph의 create_react_agent는 deprecated)
+    agent = create_agent(
+        model=llm,
+        tools=tools,
+        system_prompt=system_prompt,
     )
     
     return agent
