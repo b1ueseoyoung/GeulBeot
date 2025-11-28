@@ -5,7 +5,6 @@ from typing import List, Dict, Any, Optional, Set
 
 import pandas as pd
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain_chroma import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.tools import tool
 from langgraph.prebuilt import create_react_agent
@@ -17,11 +16,11 @@ from langchain_community.vectorstores import FAISS
 # ==========================
 
 # 파일/디렉토리 경로
-LORE_DB_VECTOR_DIR = "./chroma_lore_db"            # Lore_DB (정규화 설정) 벡터 스토어
-FULL_STORY_DB_VECTOR_DIR = "./chroma_full_story_db"  # Full_Story_DB (원본 청크) 벡터 스토어
-LORE_DB_FILE = "./lore_db.csv"
-FULL_STORY_DB_FILE = "./full_story_db.csv"
-CONFLICT_DB_FILE = "./conflict_db.csv"
+LORE_DB_VECTOR_DIR = "./faiss_lore_db"            # Lore_DB (정규화 설정) 벡터 스토어
+FULL_STORY_DB_VECTOR_DIR = "./faiss_full_story_db"  # Full_Story_DB (원본 청크) 벡터 스토어
+LORE_DB_FILE = "./lore_db.jsonl"
+FULL_STORY_DB_FILE = "./full_story_db.jsonl"
+CONFLICT_DB_FILE = "./conflict_db.jsonl"
 
 # 회차 기본값
 DEFAULT_EPISODE_SEQ = 1
@@ -45,9 +44,9 @@ conflict_db: List[Dict[str, Any]] = []       # 충돌 내역
 lore_db: List[Dict[str, Any]] = []           # 확정된 lore_items 누적
 full_story_db: List[str] = []                # 확정된 원본 청크 누적
 
-_lore_db_vectordb: Optional[Chroma] = None           # Lore_DB 벡터 스토어
-_full_story_db_vectordb: Optional[Chroma] = None     # Full_Story_DB 벡터 스토어
-_current_story_vectordb: Optional[Chroma] = None     # Current_DB 임시 벡터 스토어
+_lore_db_vectordb: Optional[FAISS] = None           # Lore_DB 벡터 스토어
+_full_story_db_vectordb: Optional[FAISS] = None     # Full_Story_DB 벡터 스토어
+_current_story_vectordb: Optional[FAISS] = None     # Current_DB 임시 벡터 스토어
 _current_chunk_vectordb: Optional[FAISS] = None      # Current_Chunks 임시 벡터 스토어 (FAISS)
 
 _state_loaded: bool = False
@@ -59,6 +58,9 @@ CURRENT_CHUNK_INDEX: int = -1
 # ==========================
 # OpenAI / LLM 클라이언트 (재사용)
 # ==========================
+
+# OpenAI API Key 설정
+
 
 embeddings = OpenAIEmbeddings()
 
@@ -110,8 +112,8 @@ def _build_lore_item(
 # 벡터 스토어 관리 (Lore_DB / Full_Story_DB)
 # ==========================
 
-def get_lore_db_vectordb() -> Chroma:
-    """Lore_DB 전용 벡터 스토어 생성/로드 (정규화된 lore_items)"""
+def get_lore_db_vectordb() -> Optional[FAISS]:
+    """Lore_DB 전용 벡터 스토어 (정규화된 lore_items)"""
     global _lore_db_vectordb
 
     if _lore_db_vectordb is not None:
@@ -119,23 +121,19 @@ def get_lore_db_vectordb() -> Chroma:
 
     if os.path.exists(LORE_DB_VECTOR_DIR):
         print(f"[Lore_DB_VectorStore] 기존 벡터 스토어 로드: {LORE_DB_VECTOR_DIR}")
-        _lore_db_vectordb = Chroma(
-            persist_directory=LORE_DB_VECTOR_DIR,
-            embedding_function=embeddings,
-            collection_name="lore_db",
+        _lore_db_vectordb = FAISS.load_local(
+            LORE_DB_VECTOR_DIR,
+            embeddings,
+            allow_dangerous_deserialization=True,
         )
-    else:
-        print(f"[Lore_DB_VectorStore] 새 벡터 스토어 생성")
-        _lore_db_vectordb = Chroma(
-            persist_directory=LORE_DB_VECTOR_DIR,
-            embedding_function=embeddings,
-            collection_name="lore_db",
-        )
-    return _lore_db_vectordb
+        return _lore_db_vectordb
+
+    # 아직 생성된 적이 없음 → None 유지
+    return None
 
 
-def get_full_story_db_vectordb() -> Chroma:
-    """Full_Story_DB 전용 벡터 스토어 생성/로드 (원본 chunk_data)"""
+def get_full_story_db_vectordb() -> Optional[FAISS]:
+    """Full_Story_DB 전용 벡터 스토어 (원본 chunk_data)"""
     global _full_story_db_vectordb
 
     if _full_story_db_vectordb is not None:
@@ -143,19 +141,14 @@ def get_full_story_db_vectordb() -> Chroma:
 
     if os.path.exists(FULL_STORY_DB_VECTOR_DIR):
         print(f"[Full_Story_DB_VectorStore] 기존 벡터 스토어 로드: {FULL_STORY_DB_VECTOR_DIR}")
-        _full_story_db_vectordb = Chroma(
-            persist_directory=FULL_STORY_DB_VECTOR_DIR,
-            embedding_function=embeddings,
-            collection_name="full_story_db",
+        _full_story_db_vectordb = FAISS.load_local(
+            FULL_STORY_DB_VECTOR_DIR,
+            embeddings,
+            allow_dangerous_deserialization=True,
         )
-    else:
-        print(f"[Full_Story_DB_VectorStore] 새 벡터 스토어 생성")
-        _full_story_db_vectordb = Chroma(
-            persist_directory=FULL_STORY_DB_VECTOR_DIR,
-            embedding_function=embeddings,
-            collection_name="full_story_db",
-        )
-    return _full_story_db_vectordb
+        return _full_story_db_vectordb
+
+    return None
 
 
 def add_to_lore_db_vectorstore(lore_items: List[Dict[str, Any]]):
@@ -163,7 +156,7 @@ def add_to_lore_db_vectorstore(lore_items: List[Dict[str, Any]]):
     if not lore_items:
         return
 
-    vectordb = get_lore_db_vectordb()
+    global _lore_db_vectordb
 
     texts = []
     metadatas = []
@@ -189,7 +182,20 @@ def add_to_lore_db_vectorstore(lore_items: List[Dict[str, Any]]):
             "source_seq": str(item["source_seq"]),
         })
 
-    vectordb.add_texts(texts=texts, metadatas=metadatas)
+    # 아직 로드/생성된 인덱스가 없다면 → 새로 생성
+    if _lore_db_vectordb is None:
+        print("[Lore_DB_VectorStore] 새 FAISS 인덱스 생성 및 초기 데이터 적재")
+        _lore_db_vectordb = FAISS.from_texts(
+            texts=texts,
+            embedding=embeddings,
+            metadatas=metadatas,
+        )
+    else:
+        print("[Lore_DB_VectorStore] 기존 인덱스에 데이터 추가")
+        _lore_db_vectordb.add_texts(texts=texts, metadatas=metadatas)
+
+    # 디스크에 항상 저장
+    _lore_db_vectordb.save_local(LORE_DB_VECTOR_DIR)
     print(f"[Lore_DB_VectorStore] {len(texts)}개의 lore_items가 벡터화되어 저장되었습니다.")
 
 
@@ -198,10 +204,26 @@ def add_to_full_story_db_vectorstore(chunk_data_list: List[str]):
     if not chunk_data_list:
         return
 
-    vectordb = get_full_story_db_vectordb()
-    metadatas = [{"chunk_index": i, "source": "processed_episode"} for i in range(len(chunk_data_list))]
+    global _full_story_db_vectordb
 
-    vectordb.add_texts(texts=chunk_data_list, metadatas=metadatas)
+    texts = chunk_data_list
+    metadatas = [
+        {"chunk_index": i, "source": "processed_episode"}
+        for i in range(len(chunk_data_list))
+    ]
+
+    if _full_story_db_vectordb is None:
+        print("[Full_Story_DB_VectorStore] 새 FAISS 인덱스 생성 및 초기 데이터 적재")
+        _full_story_db_vectordb = FAISS.from_texts(
+            texts=texts,
+            embedding=embeddings,
+            metadatas=metadatas,
+        )
+    else:
+        print("[Full_Story_DB_VectorStore] 기존 인덱스에 데이터 추가")
+        _full_story_db_vectordb.add_texts(texts=texts, metadatas=metadatas)
+
+    _full_story_db_vectordb.save_local(FULL_STORY_DB_VECTOR_DIR)
     print(f"[Full_Story_DB_VectorStore] {len(chunk_data_list)}개의 chunk_data가 벡터화되어 저장되었습니다.")
 
 
@@ -224,37 +246,29 @@ def add_to_current_chunk_vectorstore(chunks: List[str], episode_seq: int = DEFAU
 
     global _current_chunk_vectordb
 
-    # 이미 생성되어 있다면 중복 적재 방지
-    if _current_chunk_vectordb is not None:
-        print("[Current_Chunks] 이미 생성된 벡터스토어가 있어 재적재를 생략합니다.")
-        return
-
-    print(f"[Current_Chunks] 총 {len(chunks)}개를 벡터 스토어에 적재합니다.")
     metadatas = [
         {"chunk_index": i, "source_seq": str(episode_seq)}
         for i in range(len(chunks))
     ]
 
-    _current_chunk_vectordb = FAISS.from_texts(
-        texts=chunks,
-        embedding=embeddings,
-        metadatas=metadatas,
-    )
+    if _current_chunk_vectordb is None:
+        print(f"[Current_Chunks] 새 인덱스 생성, 총 {len(chunks)}개 적재")
+        _current_chunk_vectordb = FAISS.from_texts(
+            texts=chunks,
+            embedding=embeddings,
+            metadatas=metadatas,
+        )
+    else:
+        print(f"[Current_Chunks] 기존 인덱스에 {len(chunks)}개 추가")
+        _current_chunk_vectordb.add_texts(texts=chunks, metadatas=metadatas)
 
 
 # ==========================
 # Current_DB (현재 회차 정규화 설정용 벡터 스토어)
 # ==========================
 
-def get_current_story_vectordb() -> Chroma:
-    """Current_DB 전용 벡터 스토어 생성/로드 (임시, non-persist)"""
-    global _current_story_vectordb
-    if _current_story_vectordb is not None:
-        return _current_story_vectordb
-    _current_story_vectordb = Chroma(
-        collection_name="current_story_tmp",
-        embedding_function=embeddings,
-    )
+def get_current_story_vectordb() -> Optional[FAISS]:
+    """Current_DB 전용 벡터 스토어 (회차 단위 임시, 정규화한 데이터, non-persist)"""
     return _current_story_vectordb
 
 
@@ -263,9 +277,11 @@ def add_to_current_db_vectorstore(lore_items: List[Dict[str, Any]]):
     if not lore_items:
         return
 
-    vectordb = get_current_story_vectordb()
+    global _current_story_vectordb
+
     texts = []
     metadatas = []
+
     for item in lore_items:
         searchable_text = (
             f"[{item['item_type']}/{item['category']}] "
@@ -287,8 +303,16 @@ def add_to_current_db_vectorstore(lore_items: List[Dict[str, Any]]):
             "source_seq": str(item["source_seq"]),
         })
 
-    vectordb.add_texts(texts=texts, metadatas=metadatas)
-    print(f"[Current_DB_VectorStore] {len(texts)}개의 lore_items가 임시 벡터에 추가되었습니다.")
+    if _current_story_vectordb is None:
+        print(f"[Current_DB_VectorStore] 새 인덱스 생성, {len(texts)}개 적재")
+        _current_story_vectordb = FAISS.from_texts(
+            texts=texts,
+            embedding=embeddings,
+            metadatas=metadatas,
+        )
+    else:
+        print(f"[Current_DB_VectorStore] 기존 인덱스에 {len(texts)}개 추가")
+        _current_story_vectordb.add_texts(texts=texts, metadatas=metadatas)
 
 
 # ==========================
@@ -304,18 +328,40 @@ def reset_current_episode_state():
     _current_chunk_vectordb = None
 
 
+def _load_dataframe(path: str) -> Optional[pd.DataFrame]:
+    """json/jsonl 형식의 파일을 Dataframe으로 가져오기."""
+    if not os.path.exists(path):
+        return None
+    try:
+        ext = os.path.splitext(path)[1].lower()
+        if ext in {".jsonl", ".json"}:
+            return pd.read_json(path, lines=(ext == ".jsonl"))
+        return pd.read_csv(path)
+    except Exception:
+        return None
+
+
+def _write_dataframe(df: pd.DataFrame, path: str):
+    """DataFrame으로 JSON/JSONL 형식으로 저장."""
+    is_jsonl = os.path.splitext(path)[1].lower() == ".jsonl"
+    df.to_json(
+        path,
+        orient="records",
+        force_ascii=False,
+        lines=is_jsonl,
+        indent=None if is_jsonl else 2,
+    )
+
+
 def append_conflicts_to_file(conflicts: List[Dict[str, Any]], path: str):
-    """conflict_db 내용을 파일에 누적 저장 (CSV)"""
+    """conflict_db 내용을 파일에 누적 저장 (JSON/JSONL)"""
     if not conflicts:
         return
     df_new = pd.DataFrame(conflicts)
-    if os.path.exists(path):
-        try:
-            df_old = pd.read_csv(path)
-            df_new = pd.concat([df_old, df_new], ignore_index=True)
-        except Exception:
-            pass
-    df_new.to_csv(path, index=False)
+    df_old = _load_dataframe(path)
+    if df_old is not None:
+        df_new = pd.concat([df_old, df_new], ignore_index=True)
+    _write_dataframe(df_new, path)
     print(f"[Conflict_Log] {len(conflicts)}건 기록 → {path}")
 
 
@@ -328,13 +374,10 @@ def save_lore_db_to_file(items: List[Dict[str, Any]], path: str = LORE_DB_FILE):
         row["metadata"] = json.dumps(row.get("metadata", {}), ensure_ascii=False)
         rows.append(row)
     df_new = pd.DataFrame(rows)
-    if os.path.exists(path):
-        try:
-            df_old = pd.read_csv(path)
-            df_new = pd.concat([df_old, df_new], ignore_index=True)
-        except Exception:
-            pass
-    df_new.to_csv(path, index=False)
+    df_old = _load_dataframe(path)
+    if df_old is not None:
+        df_new = pd.concat([df_old, df_new], ignore_index=True)
+    _write_dataframe(df_new, path)
     print(f"[Lore_DB_File] {len(items)}개 저장/누적 → {path}")
 
 
@@ -344,19 +387,16 @@ def save_full_story_to_file(chunks: List[str], path: str = FULL_STORY_DB_FILE, e
     df_new = pd.DataFrame(
         [{"text": ck, "source_seq": episode_seq, "chunk_index": i} for i, ck in enumerate(chunks)]
     )
-    if os.path.exists(path):
-        try:
-            df_old = pd.read_csv(path)
-            df_new = pd.concat([df_old, df_new], ignore_index=True)
-        except Exception:
-            pass
-    df_new.to_csv(path, index=False)
+    df_old = _load_dataframe(path)
+    if df_old is not None:
+        df_new = pd.concat([df_old, df_new], ignore_index=True)
+    _write_dataframe(df_new, path)
     print(f"[Full_Story_File] {len(chunks)}개 저장/누적 → {path}")
 
 
 def load_persistent_state():
     """
-    CSV에서 lore_db/full_story_db를 로드하고,
+    json/jsonl에서 lore_db/full_story_db를 로드하고,
     벡터 디렉토리가 없을 때만 초기 임베딩을 수행.
     """
     global _state_loaded
@@ -369,28 +409,32 @@ def load_persistent_state():
     # Lore_DB
     if os.path.exists(LORE_DB_FILE):
         try:
-            df = pd.read_csv(LORE_DB_FILE)
-            for _, row in df.iterrows():
-                metadata = {}
-                if isinstance(row.get("metadata"), str):
-                    try:
-                        metadata = json.loads(row["metadata"])
-                    except Exception:
-                        metadata = {}
-                lore_db.append(
-                    {
-                        "item_type": row.get("item_type", "FACT"),
-                        "category": row.get("category", "WORLD_SETTING"),
-                        "target_group": row.get("target_group", "INDIVIDUAL"),
-                        "chunk_type": row.get("chunk_type", "TYPE_A"),
-                        "subject": row.get("subject", "UNKNOWN"),
-                        "condition": row.get("condition", ""),
-                        "effect": row.get("effect", ""),
-                        "text": row.get("text", ""),
-                        "source_seq": row.get("source_seq", DEFAULT_EPISODE_SEQ),
-                        "metadata": metadata,
-                    }
-                )
+            df = _load_dataframe(LORE_DB_FILE)
+            if df is not None:
+                for _, row in df.iterrows():
+                    metadata = {}
+                    if isinstance(row.get("metadata"), str):
+                        try:
+                            metadata = json.loads(row["metadata"])
+                        except Exception:
+                            metadata = {}
+                    elif isinstance(row.get("metadata"), dict):
+                        metadata = row.get("metadata") or {}
+
+                    lore_db.append(
+                        {
+                            "item_type": row.get("item_type", "FACT"),
+                            "category": row.get("category", "WORLD_SETTING"),
+                            "target_group": row.get("target_group", "INDIVIDUAL"),
+                            "chunk_type": row.get("chunk_type", "TYPE_A"),
+                            "subject": row.get("subject", "UNKNOWN"),
+                            "condition": row.get("condition", ""),
+                            "effect": row.get("effect", ""),
+                            "text": row.get("text", ""),
+                            "source_seq": row.get("source_seq", DEFAULT_EPISODE_SEQ),
+                            "metadata": metadata,
+                        }
+                    )
             if lore_db and not lore_vectordb_exists:
                 add_to_lore_db_vectorstore(lore_db)
                 print(f"[Load] lore_db {len(lore_db)}개 로드 및 벡터 반영 (새로 생성)")
@@ -402,14 +446,15 @@ def load_persistent_state():
     # Full_Story_DB
     if os.path.exists(FULL_STORY_DB_FILE):
         try:
-            df = pd.read_csv(FULL_STORY_DB_FILE)
-            texts = df["text"].tolist()
-            full_story_db.extend(texts)
-            if texts and not full_vectordb_exists:
-                add_to_full_story_db_vectorstore(texts)
-                print(f"[Load] full_story_db {len(texts)}개 로드 및 벡터 반영 (새로 생성)")
-            else:
-                print(f"[Load] full_story_db {len(texts)}개 로드 (기존 벡터스토어 사용)")
+            df = _load_dataframe(FULL_STORY_DB_FILE)
+            if df is not None:
+                texts = df["text"].tolist()
+                full_story_db.extend(texts)
+                if texts and not full_vectordb_exists:
+                    add_to_full_story_db_vectorstore(texts)
+                    print(f"[Load] full_story_db {len(texts)}개 로드 및 벡터 반영 (새로 생성)")
+                else:
+                    print(f"[Load] full_story_db {len(texts)}개 로드 (기존 벡터스토어 사용)")
         except Exception as e:
             print(f"[Load] full_story_db 로드 실패: {e}")
 
@@ -430,6 +475,8 @@ def search_current_db(query: str) -> str:
         return "[Current_DB가 비어있습니다]"
 
     vectordb = get_current_story_vectordb()
+    if vectordb is None:
+        return "[Current_DB 벡터스토어가 아직 생성되지 않았습니다]"
     docs = vectordb.similarity_search(query, k=SEARCH_TOP_K)
 
     if not docs:
@@ -457,6 +504,8 @@ def search_lore_db(query: str) -> str:
         return "[Lore_DB가 비어있습니다]"
 
     vectordb = get_lore_db_vectordb()
+    if vectordb is None:
+        return "[Lore_DB 벡터스토어가 아직 생성되지 않았습니다]"
     docs = vectordb.similarity_search(query, k=SEARCH_TOP_K)
 
     if not docs:
@@ -484,6 +533,8 @@ def search_full_story_db(query: str) -> str:
         return "[Full_Story_DB가 비어있습니다]"
 
     vectordb = get_full_story_db_vectordb()
+    if vectordb is None:
+        return "[Full_Story_DB 벡터스토어가 아직 생성되지 않았습니다]"
     docs = vectordb.similarity_search(query, k=SEARCH_TOP_K_CONTEXT)
 
     if not docs:
@@ -580,7 +631,7 @@ def extract_facts_from_chunk(chunk: str) -> str:
     """
     [사실 추출 도구]
     lore_items 스키마를 따르는 JSON 배열을 추출합니다.
-    TYPE_D면 빈 배열 반환.
+    TTYPE_A/B/C로 분류된 청크에 대해서만 호출.
     """
     llm = LLM_FACT_EXTRACTOR
 
@@ -590,9 +641,8 @@ def extract_facts_from_chunk(chunk: str) -> str:
         "item_type: FACT/RULE/EXCEPTION\n"
         "category: PHY_STATUS/PHY_TRAIT/ABILITY/ITEM/RELATION/LOCATION/WORLD_SETTING\n"
         "target_group: GLOBAL/RACE/CLASS/INDIVIDUAL\n"
-        "chunk_type: TYPE_A/TYPE_B/TYPE_C/TYPE_D\n"
+        "chunk_type: TYPE_A/TYPE_B/TYPE_C\n"
         "subject, condition, effect, text를 포함한 JSON 배열만 출력.\n"
-        "TYPE_D면 []만 출력."
     )
 
     resp = llm.invoke([
@@ -700,7 +750,7 @@ def create_lore_keeper_agent(model_name: str = "gpt-4o-mini"):
         "   a. extract_facts_from_chunk로 사실 추출\n"
         "   c. search_lore_db (이전 회차 정규화된 설정 검색)\n"
         "   d. search_current_db (현재 회차 임시 설정 검색)\n"
-        "   e. search_current_chunks (현재 회차 원문 맥락 검색)\n"
+        "   e. (필요할 경우) search_current_chunks (현재 회차 원문 맥락 검색)\n"
         "   f. get_current_db_settings (현재 회차 설정 조회)\n"
         "   g. 추출한 사실과 기존 설정 비교 (충돌 검사)\n"
         "   h. 충돌 있으면 report_conflict_to_db, 없으면 save_to_current_db\n"
@@ -930,31 +980,7 @@ if __name__ == "__main__":
  그런데 뜻밖에 이처럼 성황을 이루어서 장소가 매우 협착한 까닭에, 여러분끼리 서로간 친하는 기회를 드리려는 다과회가 무슨 강연회처럼 되었습니다."
  하고 일장의 인사를 베푼 뒤에 으흠으흠 하고 헛기침을 해서 목소리를 가다듬더니,
  "금년에는 여러 가지로 지장이 많았는데도 불구하고 작년보다도 거진 곱절이나 되는 놀라울 만한 성적을 보게 됐습니다. 이것은 오직 동족을 사랑하는 여러분의 열성과, 문맹을 한 사람이라도 더 물리치려는 헌신적 노력의 결과인 것이 물론입니다. 그러므로 주 최자측으로서 여러분의 수고를 감사할 뿐 아니라, 우리 계몽운동의 장래를 위해서 경축하기를 마지않는 바입니다."
- 처음에는 늦게 들어오는 사람들 때문에 수성수성하던 장내가 인제는 기침 소리 하나 없이 조용해졌다. 사회자는 말을 이어,
- "긴 말씀은 허지 않겠으나, 차나 마셔 가면서 간담적으로 피차에 의견도 교환하고, 그 동안에 분투한 체험담도 들려 주셔서 앞으로 이 운동을 계속하는 데 크게 참고가 되게 해주시 기를 바라는 바입니다."
- 라고 부탁을 한 후 단에서 내렸다.
- 대원들 중에서 제일 나이가 들어 보이는 어느 전문학교의 교복을 입은 학생이 나아가 간단한 답사를 하고 돌아왔다.
- 문간에서 회장을 정돈시키던 이 신문사의 배지를 붙인 사원이 눈짓을 하니까, L여학교 가사과의 학생들은, 굉장한 연회나 차리는 듯이 일제히 에이프런을 두르고 돌아다니며 자기네의 손으로 만든 과자와 차를 주욱 돌린다.
- 대원들은 찻잔을 받아 들고 앉아서 무릎 위에 올려놓은 과자 접시를 들여다보면서,  '에게 ―--- 요걸루 어디 간에 기별이나 가겠나.’
- 하는 듯한 표정을 지으며 입맛을 다신다.
- 장내는 사기 그릇이 부딪쳐 대그락거리는 소리와 잡담을 하는 소리로 웅성웅성하는데, 맨 앞줄 한구석에서 하와이안 기타를 뜯는 소리가 모기 소리처럼 애응애응 하고 들리기 시작한 다.
- 남양의 달밤을 상상케 하는 애련하고도 청아한 선율에, 회장은 다시 조용해졌다. C 전문의 명물인 익살꾼으로 기타의 명수인 S군이 자청을 해서 한 곡조를 타는 것이다.
- S군은 한참 타다가 저 혼자 신이 나서 악기를 들고 일어나 엉덩춤을 춘다. 메기 같은 넓적한 입을 실룩거리며 토인의 노래를 흉내내는데, 그 목소리는 체수에 어울리지 않게, 염생이가 우는 소리와 흡사하게 떨려 나와서, 여러 사람의 웃음보가 터졌다. 어떤 중학생은 웃음을 억지로 참다가, 입에 물고 있던 과자를 앞줄에 앉은 사람의 뒤통수에다가 확 내뿜었다. 한구석에 몰려 앉은 여학생들은 손수건을 입에다 대고 허리를 잡는다.
- "재청요―---"
- "앙코르―--- 앙코르 ―--- "하는 소리가 여기저기서 일어나며 회장 안은 벌통 속처럼 와글와글한다. S군은 저더러 잘 한다는 줄만 알고, 두번 세번 껑충거리고 나와서 익살을 깨트리는 바람에 점잔을 빼던 사회자도 간신히 웃음을 참고 앉았다. 그는 미소를 띠고 일어서며,
- "여러분 고만 조용헙시다."
- 하고 손을 들었다.
- "지금부터 여러분의 체험담을 듣겠습니다. 한 사람도 빼어 놓지 않고 고향에서 활동 하던 이야기를 골고루 듣고는 싶지만, 시간이 허락지 않는 관계로 유감천만이나 사회자가 몇 분을 지적할 수밖에 없습니다."
- 하고 양복 주머니에서 각 지방으로부터 온 통신과, 이미 신문에 발표된 대원들의 보고서를 한 뭉텅이나 꺼내 놓고 뒤적 거리 더니,
- "금년에 활동한 계몽 대원 중에 뛰어나게 좋은 성적을 보여 주었을 뿐 아니라, 글을 깨쳐 준 아동의 수효로는 우리 신문사에서 이 운동을 개시한 이래 최고 기록을 지은 분을 소개 하겠소이다."
- 하고는 다시 안경 너머로 서류를 들여다보다가 얼굴을 들고 선생이 출석부를 부르듯이,
- "×× 고등 농림의 박동혁(朴東赫) 군!"
- 하고 목소리를 높였다. 장내는 테를 메인 듯이 긴장해졌건만, 제 이름을 못 들었는지 얼핏 대답하는 사람이 없다.
- "박동혁 군 왔소?"
- 사회자는 더한층 목소리를 높이고는 사면을 살핀다. 만장의 학생들은, ' 박동혁이가 어떻게 생긴 사람이야!’
- 하는 듯이 서로 돌려다보며 이름을 불린 고농 학생을 찾는다.
- "여기 있습니다."
- 맨 뒷줄에서 굵다란 목소리가 청처짐하게 들렸다. 여러 사람의 고개는 일제히 목소리가 난데로 돌려졌다."""
+ 처음에는 늦게 들어오는 사람들 때문에 수성수성하던 장내가 인제는 기침 소리 하나 없이 조용해졌다."""
 
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=100,
@@ -975,6 +1001,6 @@ if __name__ == "__main__":
         chunks,
         episode_seq=1,
         clear_after=False,
-        conflict_log_path="conflicts.csv"
+        conflict_log_path="conflicts.jsonl"
     )
     print(summary)
