@@ -316,7 +316,6 @@ def add_to_current_db_vectorstore(lore_items: List[Dict[str, Any]]):
             f"Text: {item['text']}"
         )
         texts.append(searchable_text)
-        print(texts)
         metadatas.append({
             "novel_id": item.get("novel_id", CURRENT_NOVEL_ID),
             "item_type": item["item_type"],
