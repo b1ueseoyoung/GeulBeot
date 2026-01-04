@@ -7,8 +7,13 @@
 - 충돌 없으면 Current_DB에 저장, 충돌이면 Conflict_DB에 로그를 남긴다.
 
 ## workflow
-1) Chunking → [agent] 2) classify_chunk_type → 3) extract_facts_from_chunk  
-4) (RAG) search_* → 5) judge_conflict [:agent] → 6) save_to_current_db or report_conflict_to_db
+  Chunking → <br>
+  ```
+   [agent]
+   classify_chunk_type → extract_facts_from_chunk → (RAG) search_* → judge_conflict 
+   [:agent]
+```
+  → save_to_current_db or report_conflict_to_db
 
 ## 환경 설정 (가상환경)
 ```
