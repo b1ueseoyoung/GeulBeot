@@ -1,8 +1,18 @@
 # main.py 코드 리뷰
 
+## What this does
+- 웹소설 텍스트를 청킹하고
+- 청크에서 설정(lore_items)을 추출한 뒤
+- 기존 Lore_DB / Current_DB / Full_Story_DB와 비교해 **설정 충돌 여부를 판정**
+- 충돌 없으면 Current_DB에 저장, 충돌이면 Conflict_DB에 로그를 남긴다.
+
+## workflow
+1) Chunking → [agent] 2) classify_chunk_type → 3) extract_facts_from_chunk  
+4) (RAG) search_* → 5) judge_conflict [:agent] → 6) save_to_current_db or report_conflict_to_db
+
 ## 환경 설정 (가상환경)
 ```
-pip install pandas langchain-openai langgraph faiss-cpu
+pip install pandas langchain-openai langchain_community langchain_text_splitters langgraph faiss-cpu
 ```
 
 ## API
