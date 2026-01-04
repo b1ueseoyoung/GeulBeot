@@ -1,0 +1,762 @@
+[
+  {
+    "source_seq": 1,
+    "chunk_index": 0,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 1,
+    "chunk_index": 1,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 1,
+    "chunk_index": 2,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 1,
+    "chunk_index": 3,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 2,
+    "chunk_index": 0,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 2,
+    "chunk_index": 1,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 2,
+    "chunk_index": 2,
+    "gold_is_conflict": false,
+    "pred_is_conflict": true,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 2,
+    "chunk_index": 3,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 2,
+    "chunk_index": 4,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 2,
+    "chunk_index": 5,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 2,
+    "chunk_index": 6,
+    "gold_is_conflict": false,
+    "pred_is_conflict": true,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 3,
+    "chunk_index": 0,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 3,
+    "chunk_index": 1,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 3,
+    "chunk_index": 2,
+    "gold_is_conflict": true,
+    "pred_is_conflict": true,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 3,
+    "chunk_index": 3,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 3,
+    "chunk_index": 4,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 3,
+    "chunk_index": 5,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 3,
+    "chunk_index": 6,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 3,
+    "chunk_index": 7,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 3,
+    "chunk_index": 8,
+    "gold_is_conflict": true,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 3,
+    "chunk_index": 9,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 3,
+    "chunk_index": 10,
+    "gold_is_conflict": true,
+    "pred_is_conflict": true,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 4,
+    "chunk_index": 0,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 4,
+    "chunk_index": 1,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 4,
+    "chunk_index": 2,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 4,
+    "chunk_index": 3,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 4,
+    "chunk_index": 4,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 4,
+    "chunk_index": 5,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 4,
+    "chunk_index": 6,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 4,
+    "chunk_index": 7,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 4,
+    "chunk_index": 8,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 4,
+    "chunk_index": 9,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 4,
+    "chunk_index": 10,
+    "gold_is_conflict": true,
+    "pred_is_conflict": true,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 5,
+    "chunk_index": 0,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 5,
+    "chunk_index": 1,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 5,
+    "chunk_index": 2,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 5,
+    "chunk_index": 3,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 5,
+    "chunk_index": 4,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 5,
+    "chunk_index": 5,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 5,
+    "chunk_index": 6,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 5,
+    "chunk_index": 7,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 5,
+    "chunk_index": 8,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 5,
+    "chunk_index": 9,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 6,
+    "chunk_index": 0,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 6,
+    "chunk_index": 1,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 6,
+    "chunk_index": 2,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 6,
+    "chunk_index": 3,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 6,
+    "chunk_index": 4,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 6,
+    "chunk_index": 5,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 6,
+    "chunk_index": 6,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 6,
+    "chunk_index": 7,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 7,
+    "chunk_index": 0,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 7,
+    "chunk_index": 1,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 7,
+    "chunk_index": 2,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 7,
+    "chunk_index": 3,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 7,
+    "chunk_index": 4,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 7,
+    "chunk_index": 5,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 7,
+    "chunk_index": 6,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 7,
+    "chunk_index": 7,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 8,
+    "chunk_index": 0,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 8,
+    "chunk_index": 1,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 8,
+    "chunk_index": 2,
+    "gold_is_conflict": true,
+    "pred_is_conflict": true,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 8,
+    "chunk_index": 3,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 8,
+    "chunk_index": 4,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 8,
+    "chunk_index": 5,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 8,
+    "chunk_index": 6,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 8,
+    "chunk_index": 7,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 8,
+    "chunk_index": 8,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 8,
+    "chunk_index": 9,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 8,
+    "chunk_index": 10,
+    "gold_is_conflict": true,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 9,
+    "chunk_index": 0,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 9,
+    "chunk_index": 1,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 9,
+    "chunk_index": 2,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 9,
+    "chunk_index": 3,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 9,
+    "chunk_index": 4,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 9,
+    "chunk_index": 5,
+    "gold_is_conflict": false,
+    "pred_is_conflict": true,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 9,
+    "chunk_index": 6,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 9,
+    "chunk_index": 7,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 9,
+    "chunk_index": 8,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 9,
+    "chunk_index": 9,
+    "gold_is_conflict": true,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 0,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 1,
+    "gold_is_conflict": true,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 2,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 3,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 4,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 5,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 6,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 7,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 8,
+    "gold_is_conflict": true,
+    "pred_is_conflict": true,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 9,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 10,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 11,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 12,
+    "gold_is_conflict": false,
+    "pred_is_conflict": true,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 13,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  },
+  {
+    "source_seq": 10,
+    "chunk_index": 14,
+    "gold_is_conflict": false,
+    "pred_is_conflict": false,
+    "gold_type": "",
+    "pred_type": ""
+  }
+]
