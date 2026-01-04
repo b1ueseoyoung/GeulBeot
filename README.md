@@ -6,6 +6,8 @@
 - 기존 Lore_DB / Current_DB / Full_Story_DB와 비교해 **설정 충돌 여부를 판정**
 - 충돌 없으면 Current_DB에 저장, 충돌이면 Conflict_DB에 로그를 남긴다.
 
+<br>
+
 ## workflow
   Chunking → <br>
   ```
@@ -14,6 +16,8 @@
    [:agent]
 ```
   → save_to_current_db or report_conflict_to_db
+
+<br>
 
 ## 환경 설정 (가상환경)
 ```
