@@ -1,0 +1,27 @@
+# CO-DITOR Experiment Requirements
+# Python 3.10+ 권장
+
+# LangChain 관련
+langchain>=0.1.0
+langchain-openai>=0.0.5
+langchain-community>=0.0.20
+langchain-text-splitters>=0.0.1
+langgraph>=0.0.20
+
+# 벡터 DB
+faiss-cpu>=1.7.4
+
+# 데이터 처리
+pandas>=2.0.0
+
+# HuggingFace 데이터셋 (FFF 데이터)
+datasets>=2.14.0
+
+# 문장 분할 (FFF 호환)
+nltk>=3.8.1
+
+# 환경변수 관리
+python-dotenv>=1.0.0
+
+# 평가 지표
+scikit-learn>=1.3.0
