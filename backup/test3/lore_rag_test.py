@@ -7,6 +7,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # ========= 경로 설정 =========
+os.environ['OPENAI_API_KEY'] = "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" 
 STORY_FILE = "story.txt"                     # 네가 가진 원문
 GROUND_TRUTH_FILE = "ground_truth_100_v3.json"
 VECTOR_DIR = "./chroma_story_rag"           # story용 VectorStore 디렉토리

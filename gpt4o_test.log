@@ -1,0 +1,795 @@
+/Users/leeseoyoung/Desktop/dev/Geul-Bot/newversion.py:1086: LangGraphDeprecatedSinceV10: create_react_agent has been moved to `langchain.agents`. Please update your import to `from langchain.agents import create_agent`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+  agent_graph = create_react_agent(
+/Users/leeseoyoung/Desktop/dev/Geul-Bot/newversion.py:1086: LangGraphDeprecatedSinceV10: create_react_agent has been moved to `langchain.agents`. Please update your import to `from langchain.agents import create_agent`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+  agent_graph = create_react_agent(
+
+######################################################################
+[Multi Runner] Start episode 1 (chunks=5)
+######################################################################
+
+
+============================================================
+Start manual episode processing (episode_seq=1, chunks=5)
+============================================================
+
+
+============================================================
+[Chunk 1] One dollar and eighty-seven cents. That was all. And sixty c...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Confirmed possession of one dollar and eighty-seven cents....
+[Current_DB_VectorStore] Create a new index, load 1 items
+[Current_Chunks] Create a new index, load 1 item total
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 2]  Pennies saved one and two at a time by bulldozing the groce...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: PASS...
+[Current_Chunks] Append 1 item to the existing index (chunk_index=1)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 3] Three times Della counted it. One dollar and eighty-seven ce...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for Della's situation and the timing of Christmas....
+[Current_DB_VectorStore] Append 2 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=2)
+✓ Saved 2 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 4] There was clearly nothing to do but flop down on the shabby ...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Confirm the emotional state of Della in the narrative....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=3)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 5] So Della did it. Which instigates the moral reflection that ...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Confirm the emotional state of Della and her reflections on life....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=4)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+✓ No conflicts - commit into Lore_DB / Full_Story_DB
+[Lore_DB_File] Saved/appended 5 items → ./lore_db.jsonl
+[Lore_DB_VectorStore] Create a new FAISS index and load initial data
+[Lore_DB_VectorStore] Saved 5 lore_items as vectors.
+[Full_Story_DB_VectorStore] Create a new FAISS index and load initial data
+[Full_Story_DB_VectorStore] Saved 5 chunk_data as vectors.
+[Full_Story_File] Saved/appended 5 items → ./full_story_db.jsonl
+
+=== Lore Keeper Summary ===
+- Episode: 1
+- Chunks: 5
+- Conflict: NO CONFLICT (total 0)
+- Next action: Saved to Lore_DB / Full_Story_DB and vector stores
+- Saved settings count (Current_DB → Lore_DB): 5
+
+######################################################################
+[Multi Runner] Start episode 2 (chunks=9)
+######################################################################
+
+
+============================================================
+Start manual episode processing (episode_seq=2, chunks=9)
+============================================================
+
+
+============================================================
+[Chunk 1] While the mistress of the home is gradually subsiding from t...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Confirmed no conflicts regarding the furnished flat....
+[Current_DB_VectorStore] Create a new index, load 1 items
+[Current_Chunks] Create a new index, load 1 item total
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 2] It did not exactly beggar description, but it certainly had ...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: End processing as the chunk is of type D....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=1)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 3] In the vestibule below was a letter-box into which no letter...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for the described items....
+[Current_DB_VectorStore] Append 2 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=2)
+✓ Saved 2 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 4] Also appertaining thereunto was a card bearing the name “Mr....
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: PASS...
+[Current_Chunks] Append 1 item to the existing index (chunk_index=3)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 5] James Dillingham Young.”...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Confirm the identity of James Dillingham Young....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=4)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 6] The “Dillingham” had been flung to the breeze during a forme...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for the text....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=5)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 7] Now, when the income was shrunk to $20, though, they were th...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for the income situation....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=6)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 8] But whenever Mr. James Dillingham Young came home and reache...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for Mr. James Dillingham Young....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=7)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 9] James Dillingham Young, already introduced to you as Della. ...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Confirmed no conflicts in the text regarding James Dillingham Young....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=8)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+✓ No conflicts - commit into Lore_DB / Full_Story_DB
+[Lore_DB_File] Saved/appended 6 items → ./lore_db.jsonl
+[Lore_DB_VectorStore] Append data to the existing index
+[Lore_DB_VectorStore] Saved 6 lore_items as vectors.
+[Full_Story_DB_VectorStore] Append data to the existing index
+[Full_Story_DB_VectorStore] Saved 9 chunk_data as vectors.
+/Users/leeseoyoung/Desktop/dev/Geul-Bot/newversion.py:1086: LangGraphDeprecatedSinceV10: create_react_agent has been moved to `langchain.agents`. Please update your import to `from langchain.agents import create_agent`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+  agent_graph = create_react_agent(
+[Full_Story_File] Saved/appended 9 items → ./full_story_db.jsonl
+
+=== Lore Keeper Summary ===
+- Episode: 2
+- Chunks: 9
+- Conflict: NO CONFLICT (total 0)
+- Next action: Saved to Lore_DB / Full_Story_DB and vector stores
+- Saved settings count (Current_DB → Lore_DB): 6
+
+######################################################################
+[Multi Runner] Start episode 3 (chunks=8)
+######################################################################
+
+
+============================================================
+Start manual episode processing (episode_seq=3, chunks=8)
+============================================================
+
+
+============================================================
+[Chunk 1] Della finished her cry and attended to her cheeks with the p...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: PASS...
+[Current_Chunks] Create a new index, load 1 item total
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 2] She stood by the window and looked out dully at a gray cat w...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: PASS...
+[Current_Chunks] Append 1 item to the existing index (chunk_index=1)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 3] Tomorrow would be Christmas Day, and she had only $1.87 with...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Confirmed no conflicts in the canon regarding the text....
+[Current_DB_VectorStore] Create a new index, load 2 items
+[Current_Chunks] Append 1 item to the existing index (chunk_index=2)
+✓ Saved 2 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 4] She had been saving every penny she could for months, with t...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for the character's financial situation....
+[Current_DB_VectorStore] Append 2 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=3)
+✓ Saved 2 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 5] Expenses had been greater than she had calculated. They alwa...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Analyze the next text for canon conflicts....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=4)
+✗ Save failed: Expecting value: line 4 column 21 (char 57)
+
+============================================================
+[Chunk 6] Her Jim.
+
+She had, in fact, saved exactly $18.70 for Jim’s p...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Confirmed no conflicts in the canon regarding the saved amount for Jim's present....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=5)
+✗ Save failed: Expecting value: line 4 column 21 (char 57)
+
+============================================================
+[Chunk 7] Many a happy hour she had spent planning for something nice ...
+============================================================
+
+[Final Decision] Conflict: YES  
+Next action: Review conflicting details about the amount saved for Jim's present....
+✗ Detected: Hard Conflict
+  Existing-setting snippet: She had, in fact, saved exactly $18.70 for Jim’s p...
+
+============================================================
+[Chunk 8] Something fine and rare and sterling—something just a little...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: End processing as the chunk is of type D....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=7)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+✗ Detected 1 conflicts - hold back Lore_DB / Full_Story_DB updates
+[Conflict_Log] Logged 1 items → ./conflict_db.jsonl
+
+=== Lore Keeper Summary ===
+- Episode: 3
+- Chunks: 8
+- Conflict: CONFLICT (total 1)
+- Next action: Hold back Lore_DB / Full_Story_DB updates (save only to Conflict_DB)
+
+▶ Conflict details
+  [1] Episode 3, Chunk 6
+      Type: Hard Conflict
+      Reason: None
+      Conflicting excerpt: She had, in fact, saved exactly $18.70 for Jim’s present, and she knew it would be enough.
+
+######################################################################
+[Multi Runner] Start episode 4 (chunks=8)
+######################################################################
+
+
+============================================================
+Start manual episode processing (episode_seq=4, chunks=8)
+============================================================
+
+
+============================================================
+[Chunk 1] There was a pier glass between the windows of the room. Perh...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: PASS...
+[Current_Chunks] Create a new index, load 1 item total
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 2]  A very thin and very agile person may, by observing his ref...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for the character's ability....
+[Current_DB_VectorStore] Create a new index, load 1 items
+[Current_Chunks] Append 1 item to the existing index (chunk_index=1)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 3] Della, being slender, had mastered the art.
+
+Suddenly she wh...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: PASS...
+[Current_Chunks] Append 1 item to the existing index (chunk_index=2)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 4] Her eyes were shining brilliantly, but her face had lost its...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Proceed with the next chunk analysis....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=3)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 5] Rapidly she pulled down her hair and let it fall to its full...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: PASS (end)...
+[Current_Chunks] Append 1 item to the existing index (chunk_index=4)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 6] Her hair was already cropped short above her ears, and there...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for hair description....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=5)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 7] Now, there were two possessions of the James Dillingham Youn...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Confirmed no conflicts regarding the possessions of the James Dillingham Youngs....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=6)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+/Users/leeseoyoung/Desktop/dev/Geul-Bot/newversion.py:1086: LangGraphDeprecatedSinceV10: create_react_agent has been moved to `langchain.agents`. Please update your import to `from langchain.agents import create_agent`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+  agent_graph = create_react_agent(
+/Users/leeseoyoung/Desktop/dev/Geul-Bot/newversion.py:1086: LangGraphDeprecatedSinceV10: create_react_agent has been moved to `langchain.agents`. Please update your import to `from langchain.agents import create_agent`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+  agent_graph = create_react_agent(
+/Users/leeseoyoung/Desktop/dev/Geul-Bot/newversion.py:1086: LangGraphDeprecatedSinceV10: create_react_agent has been moved to `langchain.agents`. Please update your import to `from langchain.agents import create_agent`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+  agent_graph = create_react_agent(
+[Chunk 8] One was Jim’s gold watch that had been his father’s and his ...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for Jim's watch and Della's hair....
+[Current_DB_VectorStore] Append 2 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=7)
+✓ Saved 2 items to Current_DB (duplicates/guesses excluded)
+
+✓ No conflicts - commit into Lore_DB / Full_Story_DB
+[Lore_DB_File] Saved/appended 6 items → ./lore_db.jsonl
+[Lore_DB_VectorStore] Append data to the existing index
+[Lore_DB_VectorStore] Saved 6 lore_items as vectors.
+[Full_Story_DB_VectorStore] Append data to the existing index
+[Full_Story_DB_VectorStore] Saved 8 chunk_data as vectors.
+[Full_Story_File] Saved/appended 8 items → ./full_story_db.jsonl
+
+=== Lore Keeper Summary ===
+- Episode: 4
+- Chunks: 8
+- Conflict: NO CONFLICT (total 0)
+- Next action: Saved to Lore_DB / Full_Story_DB and vector stores
+- Saved settings count (Current_DB → Lore_DB): 6
+
+######################################################################
+[Multi Runner] Start episode 5 (chunks=5)
+######################################################################
+
+
+============================================================
+Start manual episode processing (episode_seq=5, chunks=5)
+============================================================
+
+
+============================================================
+[Chunk 1] So now Della’s beautiful hair fell about her rippling and sh...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: PASS...
+[Current_Chunks] Create a new index, load 1 item total
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 2] It reached below her knee and made itself almost a garment f...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for the text....
+[Current_DB_VectorStore] Create a new index, load 1 items
+[Current_Chunks] Append 1 item to the existing index (chunk_index=1)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 3] Sofronie. Hair Goods of All Kinds.”
+
+“Will you buy my hair?”...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Confirmed no conflicts in the current text....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=2)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 4] “I buy hair,” said Madame. “Take yer hat off and let’s have ...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Proceed with the next chunk analysis....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=3)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 5] “Two dollars,” said Madame, lifting the mass with a practise...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Proceed with the next chunk analysis....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=4)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+✓ No conflicts - commit into Lore_DB / Full_Story_DB
+[Lore_DB_File] Saved/appended 1 items → ./lore_db.jsonl
+[Lore_DB_VectorStore] Append data to the existing index
+[Lore_DB_VectorStore] Saved 1 lore_items as vectors.
+[Full_Story_DB_VectorStore] Append data to the existing index
+[Full_Story_DB_VectorStore] Saved 5 chunk_data as vectors.
+[Full_Story_File] Saved/appended 5 items → ./full_story_db.jsonl
+
+=== Lore Keeper Summary ===
+- Episode: 5
+- Chunks: 5
+- Conflict: NO CONFLICT (total 0)
+- Next action: Saved to Lore_DB / Full_Story_DB and vector stores
+- Saved settings count (Current_DB → Lore_DB): 1
+
+######################################################################
+[Multi Runner] Start episode 6 (chunks=4)
+######################################################################
+
+
+============================================================
+Start manual episode processing (episode_seq=6, chunks=4)
+============================================================
+
+
+============================================================
+[Chunk 1] Oh, and the next two hours tripped by on rosy wings. Forget ...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: PASS...
+[Current_Chunks] Create a new index, load 1 item total
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 2] She found it at last. It was a platinum fob chain simple and...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for the item found....
+[Current_DB_VectorStore] Create a new index, load 1 items
+[Current_Chunks] Append 1 item to the existing index (chunk_index=1)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 3] They took only five dollars from her for it, and she hurried...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for the episode....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=2)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 4] With that chain on his watch Jim might be properly anxious a...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Analyze the next text chunk for canon conflicts....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=3)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+✓ No conflicts - commit into Lore_DB / Full_Story_DB
+[Lore_DB_File] Saved/appended 3 items → ./lore_db.jsonl
+[Lore_DB_VectorStore] Append data to the existing index
+[Lore_DB_VectorStore] Saved 3 lore_items as vectors.
+[Full_Story_DB_VectorStore] Append data to the existing index
+[Full_Story_DB_VectorStore] Saved 4 chunk_data as vectors.
+[Full_Story_File] Saved/appended 4 items → ./full_story_db.jsonl
+
+=== Lore Keeper Summary ===
+- Episode: 6
+- Chunks: 4
+- Conflict: NO CONFLICT (total 0)
+- Next action: Saved to Lore_DB / Full_Story_DB and vector stores
+- Saved settings count (Current_DB → Lore_DB): 3
+
+######################################################################
+[Multi Runner] Start episode 7 (chunks=3)
+######################################################################
+
+
+============================================================
+Start manual episode processing (episode_seq=7, chunks=3)
+============================================================
+
+
+============================================================
+[Chunk 1] At 7 o’clock the coffee was made and the frying-pan was on t...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for the text....
+[Current_DB_VectorStore] Create a new index, load 1 items
+[Current_Chunks] Create a new index, load 1 item total
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 2] Jim was never late.
+
+The door opened and Jim stepped in and ...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for Jim's character traits....
+[Current_DB_VectorStore] Append 2 items to the existing index
+/Users/leeseoyoung/Desktop/dev/Geul-Bot/newversion.py:1086: LangGraphDeprecatedSinceV10: create_react_agent has been moved to `langchain.agents`. Please update your import to `from langchain.agents import create_agent`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+  agent_graph = create_react_agent(
+/Users/leeseoyoung/Desktop/dev/Geul-Bot/newversion.py:1086: LangGraphDeprecatedSinceV10: create_react_agent has been moved to `langchain.agents`. Please update your import to `from langchain.agents import create_agent`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+  agent_graph = create_react_agent(
+/Users/leeseoyoung/Desktop/dev/Geul-Bot/newversion.py:1086: LangGraphDeprecatedSinceV10: create_react_agent has been moved to `langchain.agents`. Please update your import to `from langchain.agents import create_agent`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+  agent_graph = create_react_agent(
+[Current_Chunks] Append 1 item to the existing index (chunk_index=1)
+✓ Saved 2 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 3] Poor fellow, he was thirty-five—and to be burdened with a fa...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Analyze the next text for canon conflicts....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=2)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+✓ No conflicts - commit into Lore_DB / Full_Story_DB
+[Lore_DB_File] Saved/appended 3 items → ./lore_db.jsonl
+[Lore_DB_VectorStore] Append data to the existing index
+[Lore_DB_VectorStore] Saved 3 lore_items as vectors.
+[Full_Story_DB_VectorStore] Append data to the existing index
+[Full_Story_DB_VectorStore] Saved 3 chunk_data as vectors.
+[Full_Story_File] Saved/appended 3 items → ./full_story_db.jsonl
+
+=== Lore Keeper Summary ===
+- Episode: 7
+- Chunks: 3
+- Conflict: NO CONFLICT (total 0)
+- Next action: Saved to Lore_DB / Full_Story_DB and vector stores
+- Saved settings count (Current_DB → Lore_DB): 3
+
+######################################################################
+[Multi Runner] Start episode 8 (chunks=3)
+######################################################################
+
+
+============================================================
+Start manual episode processing (episode_seq=8, chunks=3)
+============================================================
+
+
+============================================================
+[Chunk 1] Della wriggled off the table and went for him.
+
+“Jim, darlin...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: No conflicts found; proceed with the next chunk....
+[Current_Chunks] Create a new index, load 1 item total
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 2] I had my hair cut off and sold because I couldn’t have lived...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Analyze the next text chunk for canon conflicts....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=1)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 3] “You’ve cut off your hair?” asked Jim, laboriously.
+
+“Cut it...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Analyze the next chunk for canon conflicts....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=2)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+✓ No conflicts - commit into Lore_DB / Full_Story_DB
+[Full_Story_DB_VectorStore] Append data to the existing index
+[Full_Story_DB_VectorStore] Saved 3 chunk_data as vectors.
+[Full_Story_File] Saved/appended 3 items → ./full_story_db.jsonl
+
+=== Lore Keeper Summary ===
+- Episode: 8
+- Chunks: 3
+- Conflict: NO CONFLICT (total 0)
+- Next action: Saved to Lore_DB / Full_Story_DB and vector stores
+- Saved settings count (Current_DB → Lore_DB): 0
+
+######################################################################
+[Multi Runner] Start episode 9 (chunks=4)
+######################################################################
+
+
+============================================================
+Start manual episode processing (episode_seq=9, chunks=4)
+============================================================
+
+
+============================================================
+[Chunk 1] White fingers and nimble tore at the string and paper. And t...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: PASS...
+[Current_Chunks] Create a new index, load 1 item total
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 2] a quick feminine change to hysterical tears and wails.
+
+For ...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Confirmed no conflicts in the analyzed text....
+[Current_DB_VectorStore] Create a new index, load 1 items
+[Current_Chunks] Append 1 item to the existing index (chunk_index=1)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 3] “I did not sell my watch,” said Jim....
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Analyze the next text for canon conflicts....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=2)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 4] # 오류 7
+
+“I gave the combs to Della for free; they cost me no...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Analyze the next text chunk....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=3)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+✓ No conflicts - commit into Lore_DB / Full_Story_DB
+[Lore_DB_File] Saved/appended 1 items → ./lore_db.jsonl
+[Lore_DB_VectorStore] Append data to the existing index
+[Lore_DB_VectorStore] Saved 1 lore_items as vectors.
+[Full_Story_DB_VectorStore] Append data to the existing index
+[Full_Story_DB_VectorStore] Saved 4 chunk_data as vectors.
+[Full_Story_File] Saved/appended 4 items → ./full_story_db.jsonl
+
+=== Lore Keeper Summary ===
+- Episode: 9
+- Chunks: 4
+- Conflict: NO CONFLICT (total 0)
+- Next action: Saved to Lore_DB / Full_Story_DB and vector stores
+- Saved settings count (Current_DB → Lore_DB): 1
+
+######################################################################
+[Multi Runner] Start episode 10 (chunks=4)
+######################################################################
+
+
+============================================================
+Start manual episode processing (episode_seq=10, chunks=4)
+============================================================
+
+
+============================================================
+[Chunk 1] The magi, as you know, were wise men—wonderfully wise men—wh...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for the magi....
+[Current_DB_VectorStore] Create a new index, load 1 items
+[Current_Chunks] Create a new index, load 1 item total
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 2] And here I have related the chronicle of two foolish childre...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Establish baseline canon for the chronicle of two foolish children....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=1)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 3] Their home was not a flat at all, but a grand house rented f...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: Analyze the next text chunk for canon conflicts....
+[Current_DB_VectorStore] Append 1 items to the existing index
+[Current_Chunks] Append 1 item to the existing index (chunk_index=2)
+✓ Saved 1 items to Current_DB (duplicates/guesses excluded)
+
+============================================================
+[Chunk 4] # 오류 10...
+============================================================
+
+[Final Decision] Conflict: NO  
+Next action: End processing as the chunk is of type D....
+[Current_Chunks] Append 1 item to the existing index (chunk_index=3)
+✓ Saved 0 items to Current_DB (duplicates/guesses excluded)
+
+✓ No conflicts - commit into Lore_DB / Full_Story_DB
+[Lore_DB_File] Saved/appended 3 items → ./lore_db.jsonl
+[Lore_DB_VectorStore] Append data to the existing index
+[Lore_DB_VectorStore] Saved 3 lore_items as vectors.
+[Full_Story_DB_VectorStore] Append data to the existing index
+[Full_Story_DB_VectorStore] Saved 4 chunk_data as vectors.
+[Full_Story_File] Saved/appended 4 items → ./full_story_db.jsonl
+
+=== Lore Keeper Summary ===
+- Episode: 10
+- Chunks: 4
+- Conflict: NO CONFLICT (total 0)
+- Next action: Saved to Lore_DB / Full_Story_DB and vector stores
+- Saved settings count (Current_DB → Lore_DB): 3
+=== Overall Episode Summaries ===
+{'status': 'ok', 'source_seq': 1, 'chunk_count': 5, 'conflict_count': 0, 'saved_lore_items': 5, 'action': 'Saved to Lore_DB / Full_Story_DB and vector stores'}
+{'status': 'ok', 'source_seq': 2, 'chunk_count': 9, 'conflict_count': 0, 'saved_lore_items': 6, 'action': 'Saved to Lore_DB / Full_Story_DB and vector stores'}
+{'status': 'conflict', 'source_seq': 3, 'chunk_count': 8, 'conflict_count': 1, 'action': 'Hold back Lore_DB / Full_Story_DB updates (save only to Conflict_DB)'}
+{'status': 'ok', 'source_seq': 4, 'chunk_count': 8, 'conflict_count': 0, 'saved_lore_items': 6, 'action': 'Saved to Lore_DB / Full_Story_DB and vector stores'}
+{'status': 'ok', 'source_seq': 5, 'chunk_count': 5, 'conflict_count': 0, 'saved_lore_items': 1, 'action': 'Saved to Lore_DB / Full_Story_DB and vector stores'}
+{'status': 'ok', 'source_seq': 6, 'chunk_count': 4, 'conflict_count': 0, 'saved_lore_items': 3, 'action': 'Saved to Lore_DB / Full_Story_DB and vector stores'}
+{'status': 'ok', 'source_seq': 7, 'chunk_count': 3, 'conflict_count': 0, 'saved_lore_items': 3, 'action': 'Saved to Lore_DB / Full_Story_DB and vector stores'}
+{'status': 'ok', 'source_seq': 8, 'chunk_count': 3, 'conflict_count': 0, 'saved_lore_items': 0, 'action': 'Saved to Lore_DB / Full_Story_DB and vector stores'}
+{'status': 'ok', 'source_seq': 9, 'chunk_count': 4, 'conflict_count': 0, 'saved_lore_items': 1, 'action': 'Saved to Lore_DB / Full_Story_DB and vector stores'}
+{'status': 'ok', 'source_seq': 10, 'chunk_count': 4, 'conflict_count': 0, 'saved_lore_items': 3, 'action': 'Saved to Lore_DB / Full_Story_DB and vector stores'}

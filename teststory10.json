@@ -1,0 +1,142 @@
+[
+    {
+        "input_text": "만호는 대강당에서 연설을 마치고, 곧바로 서울에 있는 친구를 찾아갔다.",
+        "is_conflict": true,
+        "conflict_type": "Hard Conflict",
+        "reason": "만호는 대강당에 있었으므로, 즉시 서울로 이동하는 것은 시공간의 모순이다.",
+        "evidence": "본문에서 만호가 대강당에서 연설하는 장면이 묘사됨."
+    },
+    {
+        "input_text": "S군은 하와이안 기타 연주를 마치고, 즉석에서 재치있는 농담을 던졌다.",
+        "is_conflict": false,
+        "conflict_type": "None",
+        "reason": "S군은 익살꾼으로 유명하여 농담을 하는 것은 그의 성격에 부합한다.",
+        "evidence": "본문에 S군이 기타를 연주하며 익살을 부리는 장면이 있음."
+    },
+    {
+        "input_text": "P학당의 악대는 연주를 마친 후, 곧바로 다른 행사에 참가하러 이동했다.",
+        "is_conflict": false,
+        "conflict_type": "None",
+        "reason": "P학당의 악대가 여러 행사에 참여하는 것은 충분히 가능한 상황이다.",
+        "evidence": "본문에서 P학당의 악대가 연주를 마치는 장면이 있음."
+    },
+    {
+        "input_text": "L여학교의 학생들이 직접 만든 과자를 맛보며 즐겁게 이야기를 나누었다.",
+        "is_conflict": true,
+        "conflict_type": "Soft Conflict",
+        "reason": "L여학교의 학생들이 과자에 대한 불만을 보이며 회의적인 태도를 가짐.",
+        "evidence": "본문에서 L여학교의 학생들이 과자 양에 실망하는 표정을 짓는 장면이 있음."
+    },
+    {
+        "input_text": "이 신문사의 편집국장은 연설 후 차를 마시며 참석자들과 담소를 나누었다.",
+        "is_conflict": false,
+        "conflict_type": "None",
+        "reason": "편집국장이 연설 후 참석자들과 소통하는 것은 자연스러운 행동이다.",
+        "evidence": "본문에서 편집국장이 연설하는 장면이 있으며, 후속 대화는 일반적인 행위로 간주됨."
+    },
+    {
+        "input_text": "박동혁은 손에 묻은 페인트를 닦으며 동료들과 웃음을 나눴다.",
+        "is_conflict": false,
+        "conflict_type": "None",
+        "reason": "동혁은 항상 동료들과 함께 일하며, 그들과의 유대감을 중요시함.",
+        "evidence": "본문에서 동혁이 동료들과 함께 시간을 보내며 협력하는 모습이 묘사됨."
+    },
+    {
+        "input_text": "박동혁은 회의에서 발표를 마치고, 자신이 방금 서울에서 돌아왔다고 말했다.",
+        "is_conflict": true,
+        "conflict_type": "Hard Conflict",
+        "reason": "박동혁은 이야기 중에 고향인 남조선 서해변에서 일하던 이야기를 하고 있음. 갑작스럽게 서울에서 온 설정은 시공간 오류임.",
+        "evidence": "본문에서 동혁이 자신의 고향에서의 활동을 보고하는 장면"
+    },
+    {
+        "input_text": "박동혁은 무대에서 내려와 친구들과 함께 간식을 나눠 먹었다.",
+        "is_conflict": false,
+        "conflict_type": "None",
+        "reason": "박동혁은 연단에서 내려와 다른 사람들과 자연스럽게 어울릴 수 있는 사람임.",
+        "evidence": "본문에서 동혁이 청중과 소통하는 모습을 보여줌."
+    },
+    {
+        "input_text": "박동혁은 그가 가르쳤던 아이들과 함께 웃으며 뛰어다녔다.",
+        "is_conflict": true,
+        "conflict_type": "Soft Conflict",
+        "reason": "박동혁은 주로 성인과 소통하며, 진지한 성격을 가진 사람으로 묘사됨. 아이들과 뛰어노는 것은 그의 성격과 맞지 않음.",
+        "evidence": "본문에서 박동혁이 청중에게 진지하게 연설하는 모습"
+    },
+    {
+        "input_text": "박동혁은 저녁 모임에서 기타를 연주하며 노래를 불렀다.",
+        "is_conflict": true,
+        "conflict_type": "Soft Conflict",
+        "reason": "박동혁은 주로 진지한 연설과 보고를 하는 인물로, 무대에서 노래를 부르는 행동은 그의 평소 모습과 부합하지 않음.",
+        "evidence": "본문에서 박동혁이 연단에서 진지하게 연설하는 모습"
+    },
+    {
+        "input_text": "동혁이 그날 밤 호숫가에 앉아 한참을 물속을 바라보며 혼잣말을 나눴다.",
+        "is_conflict": true,
+        "conflict_type": "Hard Conflict",
+        "reason": "동혁은 사건 전에 물속에 들어갔고, 그날 밤에 물속을 바라보며 혼잣말을 나누는 것은 시간적 오류임.",
+        "evidence": "본문에서 동혁이 물속에 처음 들어가는 장면"
+    },
+    {
+        "input_text": "여름 내내 동혁은 마을의 아이들에게 수영을 가르쳤다.",
+        "is_conflict": false,
+        "conflict_type": "None",
+        "reason": "동혁은 교육 활동에 열정적인 인물임. 아이들에게 수영을 가르치는 것은 그의 성격과 부합함.",
+        "evidence": "본문에서 동혁이 아이들에게 여러 가지를 가르치는 장면"
+    },
+    {
+        "input_text": "회관에서 열린 행사에서 동혁은 조용히 뒤에서 박수를 치며 웃었다.",
+        "is_conflict": true,
+        "conflict_type": "Soft Conflict",
+        "reason": "동혁은 주로 앞에서 발언하고 행사를 주도하는 인물임. 조용히 뒤에서 박수를 치며 웃는 것은 그의 성격과 맞지 않음.",
+        "evidence": "본문에서 동혁이 항상 앞에서 목소리를 높이는 장면"
+    },
+    {
+        "input_text": "장마철에 마을 사람들이 회관 옆에 움막을 지어 비를 피했다.",
+        "is_conflict": false,
+        "conflict_type": "None",
+        "reason": "장마철에 비를 피하기 위한 움막을 짓는 것은 상황에 맞는 행동임.",
+        "evidence": "본문에서 마을 사람들이 장마철에 비를 피하기 위해 움막을 지은 장면"
+    },
+    {
+        "input_text": "동혁은 아이들에게 대나무 피리를 주며 연주를 시켰다.",
+        "is_conflict": true,
+        "conflict_type": "Soft Conflict",
+        "reason": "동혁은 음악보다는 문자 교육에 중점을 두는 인물임. 대나무 피리 연주는 그의 교육 방향성과 맞지 않음.",
+        "evidence": "본문에서 동혁이 '가갸거겨'를 가르치는 장면"
+    },
+    {
+        "input_text": "동혁이 행사장에서 걸어나가며 지나가는 사람들에게 환하게 웃으며 인사했다.",
+        "is_conflict": true,
+        "conflict_type": "Soft Conflict",
+        "reason": "동혁은 청중과의 토론 중에 매우 흥분되고 강경한 태도를 보였음. 갑자기 친근하게 인사하는 것은 캐릭터의 일관성에 위배됨.",
+        "evidence": "동혁이 매우 흥분된 어조로 의견을 밝히며 청중과 대치하는 장면"
+    },
+    {
+        "input_text": "채영신이 학생들과 함께 서서 웃음을 터뜨렸다.",
+        "is_conflict": false,
+        "conflict_type": "None",
+        "reason": "영신은 처음엔 발표를 거부했지만, 친구들과 함께 있을 때는 자연스럽게 어울릴 수 있음.",
+        "evidence": "곁에서 동무들이 옆구리를 찌르고 등을 떠다밀어서 마지못해 일어나는 장면"
+    },
+    {
+        "input_text": "사회자는 동혁의 주장에 크게 공감하며 지지를 보냈다.",
+        "is_conflict": true,
+        "conflict_type": "Hard Conflict",
+        "reason": "사회자는 동혁의 주장에 대해 주의를 시키며 반대하는 입장을 취했음.",
+        "evidence": "사회자가 계몽운동과 사상운동의 혼동을 경계하며 주의를 주는 장면"
+    },
+    {
+        "input_text": "회장은 연설 후 청중에게 인사를 하며 회의를 마쳤다.",
+        "is_conflict": false,
+        "conflict_type": "None",
+        "reason": "회장은 연설 후 청중에게 인사하는 것이 자연스러운 행동임.",
+        "evidence": "회장이 연설을 마치고 청중의 반응을 기다리는 장면"
+    },
+    {
+        "input_text": "영신은 행사 후 사회자와 긴 대화를 나누었다.",
+        "is_conflict": true,
+        "conflict_type": "Hard Conflict",
+        "reason": "영신은 발표를 거부하고 말없이 앉아 있었으며, 사회자가 다가가도 반응하지 않았음. 긴 대화를 나누었다는 것은 시공간적 오류임.",
+        "evidence": "영신이 아무 말도 하지 않고 주저앉아 버리는 장면"
+    }
+]

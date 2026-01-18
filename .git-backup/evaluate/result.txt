@@ -1,0 +1,35 @@
+=== Basic Metrics (conflict 여부) ===
+accuracy : 0.916
+precision: 0.556
+recall   : 0.556
+f1       : 0.556
+span-level exact match (text): 0.000
+
+=== Conflict Detection Report (binary) ===
+              precision    recall  f1-score   support
+
+ no_conflict      0.953     0.953     0.953        86
+    conflict      0.556     0.556     0.556         9
+
+    accuracy                          0.916        95
+   macro avg      0.755     0.755     0.755        95
+weighted avg      0.916     0.916     0.916        95
+
+Confusion matrix [ [TN, FP], [FN, TP] ]:
+[[82, 4], [4, 5]]
+
+=== Conflict Type Classification Report ===
+Labels: ['', 'NONE']
+              precision    recall  f1-score   support
+
+                  0.556     0.556     0.556         9
+        NONE      0.000     0.000     0.000         4
+
+    accuracy                          0.385        13
+   macro avg      0.278     0.278     0.278        13
+weighted avg      0.385     0.385     0.385        13
+
+Confusion matrix (rows=gold, cols=pred, same order as labels):
+[[5, 4], [4, 0]]
+
+[eval_details.json]으로 개별 청크 결과 저장 완료
