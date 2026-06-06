@@ -60,8 +60,9 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 RESULTS_DIR = os.path.join(PROJECT_ROOT, "experiment_results")
 DETAILED_LOGS_DIR = os.path.join(RESULTS_DIR, "detailed_logs")
 
-# CSV 데이터셋 경로
-CSV_DATASET_PATH = os.path.join(PROJECT_ROOT, "flawed_fictions_DataSet.csv")
+# CSV 데이터셋 경로 (Long Data 실험용으로 변경)
+# CSV 데이터셋 경로 (기본값)
+CSV_DATASET_PATH = os.path.join(PROJECT_ROOT, "target_5_additional.csv")
 
 # DB 파일/폴더 경로 (초기화 대상)
 DB_PATHS = {
@@ -72,9 +73,9 @@ DB_PATHS = {
     "conflict_db.jsonl": os.path.join(PROJECT_ROOT, "conflict_db.jsonl"),
 }
 
-# 청크 분할 설정 (Spec 권장값)
-CHUNK_SIZE = 600        # 500~800 권장
-CHUNK_OVERLAP = 80      # 50~100 권장
+# 청크 분할 설정 (600자)
+CHUNK_SIZE = 600
+CHUNK_OVERLAP = 100
 
 
 # ==============================================================================
@@ -150,7 +151,7 @@ def reset_newversion_globals():
 # 2단계: HuggingFace 데이터셋 로드 및 CSV 필터링
 # ==============================================================================
 
-def load_and_filter_fff_dataset(csv_path: str) -> Tuple[Dataset, List[str]]:
+def load_and_filter_fff_dataset(csv_path: str = None) -> Tuple[Dataset, List[str]]:
     """
     HuggingFace에서 FFF 데이터셋을 로드하고, CSV 파일의 ID로 필터링합니다.
     
@@ -165,30 +166,24 @@ def load_and_filter_fff_dataset(csv_path: str) -> Tuple[Dataset, List[str]]:
     print("\n[데이터셋 로드]")
     
     # 1) CSV에서 필터링할 ID 추출
-    print(f"  - CSV 파일 로드: {csv_path}")
+    target_csv = csv_path if csv_path else CSV_DATASET_PATH
+    print(f"  - CSV 파일 로드: {target_csv}")
     try:
-        df = pd.read_csv(csv_path, encoding="cp949")
+        df = pd.read_csv(target_csv, encoding="cp949")
     except UnicodeDecodeError:
-        df = pd.read_csv(csv_path, encoding="utf-8")
+        df = pd.read_csv(target_csv, encoding="utf-8")
     filter_ids = df["id"].tolist()
     print(f"  - 필터링할 샘플 수: {len(filter_ids)}")
     
-    # 2) HuggingFace에서 FFF 데이터셋 로드
+    # 2) HuggingFace에서 FFF 데이터셋 로드 (flawed_fictions_long 사용)
     print("  - HuggingFace 데이터셋 로드 중...")
-    dataset_long = load_dataset("kahuja/flawed-fictions", split="flawed_fictions_long")
-    dataset_cf = load_dataset("kahuja/flawed-fictions", split="flawed_fictions_cf_negs")
+    dataset = load_dataset("kahuja/flawed-fictions", split="flawed_fictions")
     
-    print(f"    ✓ flawed_fictions_long: {len(dataset_long)} 샘플")
-    print(f"    ✓ flawed_fictions_cf_negs: {len(dataset_cf)} 샘플")
+    print(f"    ✓ flawed_fictions_long: {len(dataset)} 샘플")
     
-    # 3) 두 데이터셋 합치기
-    from datasets import concatenate_datasets
-    combined_dataset = concatenate_datasets([dataset_long, dataset_cf])
-    print(f"  - 전체 데이터셋: {len(combined_dataset)} 샘플")
-    
-    # 4) CSV의 ID로 필터링
+    # 3) CSV의 ID로 필터링
     # HuggingFace 데이터셋의 'example_id' 필드와 CSV의 'id' 매칭
-    filtered_dataset = combined_dataset.filter(
+    filtered_dataset = dataset.filter(
         lambda example: example["example_id"] in filter_ids
     )
     
@@ -418,6 +413,7 @@ def convert_to_fff_format(coditor_result: Dict[str, Any]) -> Dict[str, Any]:
     story_id = coditor_result["story_id"]
     conflicts = coditor_result["conflicts"]
     sentences = coditor_result["sentences"]
+    chunks = coditor_result["chunks"]
     chunk_to_sentence_map = coditor_result["chunk_to_sentence_map"]
     
     # 충돌 여부
@@ -431,30 +427,53 @@ def convert_to_fff_format(coditor_result: Dict[str, Any]) -> Dict[str, Any]:
     evidence_parts = []
     
     for conflict in conflicts:
-        # 1) 충돌 발생 청크 → 문장 ID
         chunk_idx = conflict.get("chunk_index", -1)
-        if chunk_idx in chunk_to_sentence_map:
-            error_sentence_ids.extend(chunk_to_sentence_map[chunk_idx])
-        
-        # 2) 충돌 증거 텍스트 → 문장 ID
         conflicting_text = conflict.get("conflicting_text", "")
+        evidence = conflict.get("evidence", "")
+        
+        # 1) chunk_index가 유효한 범위인지 확인 후 매핑
+        if chunk_idx >= 0 and chunk_idx < len(chunks):
+            # chunk_to_sentence_map 사용
+            if chunk_idx in chunk_to_sentence_map:
+                mapped_ids = chunk_to_sentence_map[chunk_idx]
+                # 범위 검증
+                valid_ids = [sid for sid in mapped_ids if 0 <= sid < len(sentences)]
+                error_sentence_ids.extend(valid_ids)
+        
+        # 2) conflicting_text로 직접 문장 매칭 (더 정확함)
         if conflicting_text:
+            # conflicting_text를 정규화
+            conflicting_clean = conflicting_text.strip().lower()
+            
             for sent_idx, sent in enumerate(sentences):
-                # 증거 텍스트가 문장에 포함되어 있으면
-                if conflicting_text in sent or sent in conflicting_text:
+                sent_clean = sent.strip().lower()
+                
+                # 완전 일치 또는 포함 관계
+                if conflicting_clean == sent_clean:
                     contr_sentence_ids.append(sent_idx)
-                # 부분 매칭 (긴 텍스트의 경우)
-                elif len(conflicting_text) > 30:
-                    core = conflicting_text[:50]
-                    if core in sent:
+                elif conflicting_clean in sent_clean:
+                    contr_sentence_ids.append(sent_idx)
+                elif sent_clean in conflicting_clean:
+                    contr_sentence_ids.append(sent_idx)
+                # 부분 매칭 (30자 이상인 경우)
+                elif len(conflicting_clean) > 30:
+                    # 앞부분 50자로 매칭
+                    core = conflicting_clean[:50]
+                    if core in sent_clean:
                         contr_sentence_ids.append(sent_idx)
         
-        # 3) 추론 근거 수집
-        evidence = conflict.get("evidence", "")
+        # 3) evidence 텍스트로도 추가 매칭 시도
+        if evidence and len(evidence) > 20:
+            evidence_clean = evidence.strip().lower()
+            for sent_idx, sent in enumerate(sentences):
+                sent_clean = sent.strip().lower()
+                if evidence_clean in sent_clean or sent_clean in evidence_clean:
+                    if sent_idx not in contr_sentence_ids:
+                        contr_sentence_ids.append(sent_idx)
+        
+        # 4) 추론 근거 및 증거 텍스트 수집
         if evidence:
             reasoning_parts.append(evidence)
-        
-        # 4) 증거 텍스트 수집
         if conflicting_text:
             evidence_parts.append(conflicting_text)
     
@@ -462,8 +481,11 @@ def convert_to_fff_format(coditor_result: Dict[str, Any]) -> Dict[str, Any]:
     error_sentence_ids = sorted(set(error_sentence_ids))
     contr_sentence_ids = sorted(set(contr_sentence_ids))
     
+    # 범위 검증 (최종 확인)
+    error_sentence_ids = [sid for sid in error_sentence_ids if 0 <= sid < len(sentences)]
+    contr_sentence_ids = [sid for sid in contr_sentence_ids if 0 <= sid < len(sentences)]
+    
     # 문장 ID를 문자열 리스트로 변환 (FFF 포맷 호환)
-    # FFF에서는 "1,2,3" 형식일 수 있음 - 확인 필요
     error_lines_str = ",".join(map(str, error_sentence_ids)) if error_sentence_ids else "NA"
     contr_lines_str = ",".join(map(str, contr_sentence_ids)) if contr_sentence_ids else "NA"
     
@@ -474,7 +496,7 @@ def convert_to_fff_format(coditor_result: Dict[str, Any]) -> Dict[str, Any]:
         "contr_sentence_ids": contr_sentence_ids,
         "error_lines": error_lines_str,      # FFF 원본 포맷 호환
         "contradicted_lines": contr_lines_str,  # FFF 원본 포맷 호환
-        "reasoning": " | ".join(filter(None, reasoning_parts))[:500],  # 500자 제한
+        "reasoning": " | ".join(filter(None, reasoning_parts))[:500],  # 500자 제限
         "evidence": " | ".join(filter(None, evidence_parts))[:500],
     }
 
@@ -652,7 +674,8 @@ def calculate_metrics(
 def run_experiment(
     num_samples: Optional[int] = None,
     start_idx: int = 0,
-    save_detailed_logs: bool = True
+    save_detailed_logs: bool = True,
+    output_suffix: str = ""
 ) -> Tuple[List[Dict], Dict[str, float]]:
     """
     전체 실험을 실행합니다.
@@ -661,6 +684,7 @@ def run_experiment(
         num_samples: 처리할 샘플 수 (None이면 전체)
         start_idx: 시작 인덱스
         save_detailed_logs: 샘플별 상세 로그 저장 여부
+        output_suffix: 결과 파일명 접미사 (병렬 실행 시 사용)
     
     Returns:
         (predictions, metrics) 튜플
@@ -695,11 +719,35 @@ def run_experiment(
     ground_truth = []
     sentences_list = []  # CEEval 계산을 위한 문장 리스트 저장
     
+    # 결과 파일 경로 (샘플별로 즉시 저장)
+    suffix = f"_{output_suffix}" if output_suffix else ""
+    results_path = os.path.join(RESULTS_DIR, f"coditor_results{suffix}.json")
+    gt_path = os.path.join(RESULTS_DIR, f"ground_truth{suffix}.json")
+    
+    # 기존 결과 파일이 있으면 로드 (재실행 시 이어서)
+    if os.path.exists(results_path):
+        print(f"\n  ℹ️  기존 결과 파일 발견: {results_path}")
+        with open(results_path, "r", encoding="utf-8") as f:
+            predictions = json.load(f)
+        print(f"     → 기존 샘플 {len(predictions)}개 로드됨")
+    
+    if os.path.exists(gt_path):
+        with open(gt_path, "r", encoding="utf-8") as f:
+            ground_truth = json.load(f)
+    
+    # 이미 처리된 샘플 ID 추출 (중복 방지)
+    processed_ids = {p["story_id"] for p in predictions}
+    
     for i, sample_idx in enumerate(samples_to_process):
         # HuggingFace Dataset에서 샘플 가져오기
         sample = dataset[sample_idx]
         story_id = sample["example_id"]
         story_text = sample["story"]
+        
+        # 이미 처리된 샘플은 스킵
+        if story_id in processed_ids:
+            print(f"\n[샘플 {i+1}/{len(samples_to_process)}] {story_id} - 이미 처리됨 (스킵)")
+            continue
         
         print(f"\n{'#'*70}")
         print(f"[샘플 {i+1}/{len(samples_to_process)}] {story_id}")
@@ -754,20 +802,20 @@ def run_experiment(
         pred_label = fff_result["prediction"]
         match = "✓" if gt_label == pred_label else "✗"
         print(f"  - 정답: {gt_label}, 예측: {pred_label} {match}")
+        
+        # 3-7) 샘플별 즉시 저장 (중단 시 데이터 보존)
+        with open(results_path, "w", encoding="utf-8") as f:
+            json.dump(predictions, f, ensure_ascii=False, indent=2)
+        
+        with open(gt_path, "w", encoding="utf-8") as f:
+            json.dump(ground_truth, f, ensure_ascii=False, indent=2)
+        
+        print(f"  ✓ 결과 저장 완료 ({len(predictions)}개 샘플)")
     
-    # 4) 전체 결과 저장
-    print("\n[4단계] 결과 저장...")
-    
-    # 예측 결과 저장
-    results_path = os.path.join(RESULTS_DIR, "coditor_results.json")
-    with open(results_path, "w", encoding="utf-8") as f:
-        json.dump(predictions, f, ensure_ascii=False, indent=2)
+    # 4) 전체 결과 저장 (최종 확인용 - 이미 저장되어 있음)
+    print("\n[4단계] 최종 결과 확인...")
+    print(f"  - 총 처리 샘플 수: {len(predictions)}")
     print(f"  - 예측 결과: {results_path}")
-    
-    # Ground Truth 저장
-    gt_path = os.path.join(RESULTS_DIR, "ground_truth.json")
-    with open(gt_path, "w", encoding="utf-8") as f:
-        json.dump(ground_truth, f, ensure_ascii=False, indent=2)
     print(f"  - Ground Truth: {gt_path}")
     
     # 5) 평가 지표 계산
@@ -775,8 +823,24 @@ def run_experiment(
     print("  - HuggingFace 데이터셋(FFF 형식)으로 평가합니다.")
     print("  - Classification 및 CEEval 지표를 모두 계산합니다.")
     
+    # sentences_list 재구성 (저장된 결과에서)
+    # detailed_logs에서 문장 정보를 읽어오거나, 다시 분할
+    sentences_list = []
+    for pred in predictions:
+        story_id = pred["story_id"]
+        # dataset에서 해당 스토리 찾기
+        matching_samples = [s for s in dataset if s["example_id"] == story_id]
+        if matching_samples:
+            story_text = matching_samples[0]["story"]
+            sentences = split_into_sentences(story_text)
+            sentences_list.append(sentences)
+        else:
+            print(f"  [경고] {story_id}에 대한 스토리를 찾을 수 없음")
+            sentences_list.append([])
+    
     # 처리한 샘플 범위에 해당하는 Dataset 추출
-    dataset_subset_list = [dataset[idx] for idx in samples_to_process]
+    story_ids_in_predictions = [p["story_id"] for p in predictions]
+    dataset_subset_list = [s for s in dataset if s["example_id"] in story_ids_in_predictions]
     dataset_subset = Dataset.from_list(dataset_subset_list)
     
     # calculate_metrics 함수 호출
@@ -789,11 +853,12 @@ def run_experiment(
     )
     
     # 지표 저장
-    metrics_path = os.path.join(RESULTS_DIR, "metrics_summary.json")
+    metrics_path = os.path.join(RESULTS_DIR, f"metrics_summary{suffix}.json")
     metrics_with_meta = {
         "metrics": metrics,
         "experiment_info": {
             "total_samples": len(predictions),
+            "start_idx": start_idx,
             "timestamp": datetime.now().isoformat(),
             "chunk_size": CHUNK_SIZE,
             "chunk_overlap": CHUNK_OVERLAP,
@@ -819,6 +884,12 @@ def run_experiment(
 
 
 # ==============================================================================
+# 2. 파라미터 설정
+# ==============================================================================
+CHUNK_SIZE = 600        # User request: 600 chars (Longer Context)
+CHUNK_OVERLAP = 100     # Keep overlap 100 for safety
+
+# ==============================================================================
 # 실행 진입점
 # ==============================================================================
 
@@ -841,6 +912,18 @@ if __name__ == "__main__":
         action="store_true",
         help="상세 로그 저장 안 함"
     )
+    parser.add_argument(
+        "--output_suffix", "-o",
+        type=str,
+        default="",
+        help="결과 파일명 접미사 (병렬 실행 시 구분용)"
+    )
+    parser.add_argument(
+        "--csv_path",
+        type=str,
+        default=None,
+        help="사용할 CSV 데이터셋 경로"
+    )
     args = parser.parse_args()
 
     # 사용 예시 안내
@@ -848,9 +931,14 @@ if __name__ == "__main__":
         print(f"샘플 범위: {args.start_idx} ~ {args.start_idx + args.num_samples - 1} (총 {args.num_samples}개)")
         print("실행 예시: python run_experiment.py --start_idx 5 --num_samples 5")
 
+    # CSV 경로 오버라이드
+    if args.csv_path:
+        CSV_DATASET_PATH = args.csv_path
+
     # 실험 실행
     predictions, metrics = run_experiment(
         num_samples=args.num_samples,
         start_idx=args.start_idx,
         save_detailed_logs=not args.no_detailed_logs,
+        output_suffix=args.output_suffix,
     )

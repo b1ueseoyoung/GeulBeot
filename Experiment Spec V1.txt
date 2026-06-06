@@ -1,0 +1,161 @@
+# Experiment Spec V1
+
+### **FFF Baseline vs. CO-DITOR 비교 실험 실행**
+
+본 문서는 CO-DITOR와 FFF Baseline을 **동일 데이터·동일 지표 기준**에서 비교하기 위한 실험 실행 규격이다.
+
+목표는 Baseline의 한계를 확인하고, CO-DITOR 구조의 필요성을 실험적으로 입증하는 것이다.
+
+## 0. 공통 원칙 (반드시 준수)
+
+1. **동일 데이터셋 / 동일 샘플**
+    - HuggingFace `kahuja/flawed-fictions`
+    - split: `flawed_fictions_long` 우선 (필수), 필요 시 `flawed_fictions`
+    - 샘플 수: n개 (최종 n은 실험 전 고정)
+    - 샘플 순서/seed 고정
+2. **동일 평가 지표**
+    - Classification: Accuracy / Precision / Recall / F1
+    - Localization: **CEEval-Full**, CEEval-Pos
+        
+        → FFF 공식 evaluator 사용
+        
+3. **모델 설정 통제**
+    - 같은 LLM로 Baseline vs CO-DITOR 비교 (최소 1개 모델 필수)
+    - temperature=0 (또는 매우 낮게) 고정
+    - 프롬프트 전략(vanilla / CoT / few-shot)은 비교군 간 동일하게 적용
+
+## 1. 실험 목적
+
+1차 목적
+
+- **Baseline(전문 입력 방식)은 장편 서사에서 성능이 급격히 저하됨**
+- **CO-DITOR는 외부 메모리 기반 Agentic RAG 구조로 해당 한계를 완화/해결함**
+- 특히 **CEEval-Full(위치 특정 포함)** 지표에서 차이를 보이는지 확인
+
+2차 목적
+
+- CO-DITOR는 Baseline 대비 **False Positive(오탐)를 유의미하게 줄여 Precision을 개선함**
+- Baseline의 오탐이 발생하는 **구조적 이유**를 정성 분석으로 설명
+
+## 2. 역할 분담
+
+### [A] 창수님 — FFF Baseline 실험 + 오탐 분석
+
+Task A-1. FFF Baseline 실행
+
+- FFF 코드 구현 후 사용(테스트 코드 방향성 괜찮아요!!)
+- 입력 단위: **스토리 전체를 한번에 입력**
+- 대상 데이터: Spec 0에서 합의한 동일 샘플
+
+Task A-2. 성능 지표 산출
+
+- Accuracy / Precision / Recall / F1
+- CEEval-Full / CEEval-Pos
+
+Task A-3. False Positive 분석 (중요)
+
+- 대상: **정답 label=0인데 pred=1인 케이스**
+- scratchpad “전수 분석”은 필수 아님
+- 대신 아래 **관측 가능한 출력** 기준으로 유형화:
+    - error_lines / contradicted_lines
+    - explanation 요약
+- 오탐 유형 예시:
+    - 장르 관습 오해
+    - 상태/시간 추적 실패
+    - 과잉 추론(hallucinated contradiction)
+
+Output (A)
+
+1. Baseline 결과 JSON (지표 포함)
+2. 오탐 케이스 분석 리포트 (표 + 유형 요약)
+
+### [B] 성환님 — CO-DITOR 자동화 실험 + 지표 산출
+
+Task B-1. 실험 자동화
+
+- FFF 데이터셋 n개 샘플을 loop로 처리
+- 각 샘플 = 하나의 독립 실험
+
+**DB 초기화 필수 (샘플마다):**
+
+- 아래 항목을 *완전히 초기화*
+    - `faiss_lore_db/`
+    - `faiss_full_story_db/`
+    - `lore_db.jsonl`
+    - `full_story_db.jsonl`
+    - `conflict_db.jsonl`
+- 초기화 성공 여부 로그 출력
+
+Task B-2. 입력 처리
+
+- 스토리 → 문장 분할 → 청크 분할
+- 기본 splitter 권장값 (영어 기준):
+    - `chunk_size`: 500~800
+    - `chunk_overlap`: 50~100
+    - separators: `["\n\n", "\n", ". ", " "]`
+
+Task B-3. 결과 매핑 (FFF 포맷 정렬)
+
+각 샘플에 대해 아래 JSON 저장:
+
+```json
+{
+"story_id":"...",
+"prediction":0 or1,
+"error_sentence_ids":[...],
+"contr_sentence_ids":[...],
+"reasoning":"...",
+"evidence":"..."
+}
+```
+
+- **문장 ID 기준으로 매핑 필수**
+- CO-DITOR 내부 텍스트 근거 → 문장 단위 align
+
+문장 분할(Segmentation) 관련 의사항 (중요)
+
+- FFF의 Localization 지표(CEEval-Full / CEEval-Pos)는 문장 단위 ID를 기준으로 평가됩니다.
+- 따라서 CO-DITOR 결과를 FFF 공식 지표와 공정하게 비교하기 위해,
+**문장 분할 시 FFF 공식 코드에서 사용하는 라이브러리와 동일한 도구 사용을 권장합니다.**
+
+권장 옵션:
+
+- NLTK (`sent_tokenize`)
+- SpaCy (`en_core_web_sm`)
+
+만약 다른 문장 분할 방식을 사용할 경우:
+
+- 사용한 라이브러리 및 분할 기준을 명시하고
+- FFF 공식 분할 방식과의 차이가 결과에 미칠 수 있는 영향을 간단히 기록해주세요.
+
+Task B-4. 성능 지표 계산
+
+- 창수님과 **동일 evaluator 코드** 사용
+- 동일 지표 산출
+
+Output (B)
+
+1. CO-DITOR 결과 JSON
+2. 성능 지표 요약 (Baseline 대비 표)
+
+### 3. 비교 실험 핵심 포인트
+
+- 동일 데이터/모델 조건에서:
+    - Baseline: Long-context 추론 실패
+    - CO-DITOR: 외부 메모리 + 증거 기반 판단으로 성능 유지
+- 특히:
+    - **CEEval-Full 차이**
+    - **Precision 차이 (오탐 감소)**
+
+### 4. 최종 산출물
+
+- Baseline vs CO-DITOR 성능 비교 표
+- Long-story 성능 곡선 또는 요약
+- Baseline 오탐 유형 분석 (LLM 모델별로 유형 분석하면 좋아요)
+- CO-DITOR 구조적 장점 해석
+
+### 5. 검토 및 책임
+
+모든 결과는 이서영이 최종 코드/지표 검토
+
+실험 중 설정 변경 시 반드시 공유 후 진행!!

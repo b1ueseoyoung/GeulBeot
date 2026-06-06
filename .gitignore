@@ -1,5 +1,37 @@
 # 가상환경
 .venv/
 
-# 환경 변수 파일
+# 환경 변수
 .env
+
+# Python 캐시
+__pycache__/
+*.pyc
+*.pyo
+
+# 런타임 생성 DB/벡터스토어
+faiss_lore_db/
+faiss_full_story_db/
+lore_db.jsonl
+full_story_db.jsonl
+conflict_db.jsonl
+
+# 실험 결과 (재현 가능)
+experiment_results/
+
+# HuggingFace 캐시
+cache/
+
+# 로그
+*.log
+log_*.txt
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

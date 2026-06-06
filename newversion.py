@@ -30,9 +30,9 @@ DEFAULT_EPISODE_SEQ = 1
 # 청크 처리 사이 딜레이 (rate limit 대비용, 기본 0: 없음)
 PER_CHUNK_DELAY = 0.3
 
-# 벡터 검색 Top-K (개선: 5 → 10으로 증가)
-SEARCH_TOP_K = 10          # 설정 검색
-SEARCH_TOP_K_CONTEXT = 5   # 맥락 검색
+# 벡터 검색 Top-K (사용자 지정: 5)
+SEARCH_TOP_K = 10          # 설정 검색 (User request: Increase to 10)
+SEARCH_TOP_K_CONTEXT = 3   # 맥락 검색 (비례해서 축소)
 
 # 시스템 프롬프트 캐시
 LORE_KEEPER_SYSTEM_PROMPT = ""
@@ -858,9 +858,6 @@ def extract_facts_from_chunk(chunk: str, chunk_type: str) -> str:
     """
     llm = LLM_FACT_EXTRACTOR
 
-    # ✅ 수정 핵심:
-    # - "무조건 1개는 뽑아라" 제거: 질문/반응을 FACT로 만드는 오염 방지
-    # - TYPE_C: 질문은 FACT 금지, 애매하면 [] 허용
     system_msg = (
         "You are an AI that extracts web-novel canon/settings as structured items.\n"
         "Extract a JSON array that follows this schema:\n"
@@ -940,8 +937,8 @@ def judge_conflict(chunk: str, facts_json: str) -> str:
 **[Conflict Decision Matrix (Strict Guidelines)]**
 
 **HARD CONFLICT (physical/factual contradiction)**
-- Core: Only something that cannot both be true is a contradiction.
-- There MUST be explicit evidence in EvidenceContext. Without evidence: is_conflict=false.
+- Core: Only something that cannot both be true SIMULTANEOUSLY or logically is a contradiction.
+- There MUST be specific textual evidence in EvidenceContext. without evidence: is_conflict=false.
 - Do NOT use plausibility/common sense assumptions.
 
 Soft Conflict:
@@ -1027,32 +1024,26 @@ def create_lore_keeper_agent(model_name: str = "gpt-4o-mini"):
 
     llm = LLM_AGENT_MODEL if model_name == "gpt-4o-mini" else ChatOpenAI(model=model_name, temperature=0)
 
-    if CURRENT_EPISODE_SEQ == 1:
-        workflow = (
-            "1. Classify into A/B/C/D using classify_chunk_type\n"
-            "2. If type is D, PASS (end)\n"
-            "3. If type is A/B/C: Extract facts using extract_facts_from_chunk\n"
-        )
-    else:
-        workflow = (
-            "1. Classify into A/B/C/D using classify_chunk_type\n"
-            "2. If type is D, PASS (end)\n"
-            "3. If type is A/B/C:\n"
-            "   a. Extract facts using extract_facts_from_chunk\n"
-            "   b. search_lore_db\n"
-            "   c. search_current_db\n"
-            "   d. (If needed) search_current_chunks\n"
-            "   e. (If needed) search_full_story_db\n"
-            "4. You MUST call judge_conflict\n"
-        )
+    # Episode 1도 Judge 가능하게 변경 (원래 Newversion 복구)
+    workflow = (
+        "1. Classify into A/B/C/D using classify_chunk_type\n"
+        "2. If type is D, PASS (end)\n"
+        "3. If type is A/B/C:\n"
+        "   a. Extract facts using extract_facts_from_chunk\n"
+        "   b. search_lore_db\n"
+        "   c. search_current_db\n"
+        "   d. (If needed) search_current_chunks\n"
+        "   e. (If needed) search_full_story_db\n"
+        "4. You MUST call judge_conflict\n"
+    )
 
     system_prompt = f"""You are the web-novel canon management AI agent 'Lore Keeper'.
 
 **Workflow (follow exactly):**
 {workflow}
 
-**Principle for the very first episode:**
-- Establish baseline canon. Do NOT mark conflicts.
+**Principle:**
+- Extract facts and detect conflicts when they occur.
 
 **Final response format (exactly 2 lines):**
 1) "Conflict: YES" or "Conflict: NO"

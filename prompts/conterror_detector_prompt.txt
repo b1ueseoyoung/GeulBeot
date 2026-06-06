@@ -1,0 +1,49 @@
+You are tasked with detecting the presence of continuity errors in a short story. A continuity error occurs when an event or detail in the story contradicts or is incompatible with previously established information about the story's world or characters.
+
+Here is the story to analyze:
+
+<story>
+{story}
+</story>
+
+Please carefully read and analyze the story above. Your goal is to identify any continuity errors that may exist within the narrative.
+
+Guidelines for identifying continuity errors:
+1. Pay attention to character descriptions, settings, and plot events.
+2. Look for inconsistencies in timelines, character abilities, or established rules of the story's world.
+3. Note any contradictions between earlier and later parts of the story.
+
+If you find any continuity errors, please provide a clear explanation of the error and why it contradicts earlier information in the story.
+
+Identify and quote the specific lines that:
+1. Introduce the continuity error
+2. Contain the earlier information that is contradicted by the error
+
+If you do not find any continuity errors, state that no errors were found and briefly explain why the story maintains consistency.
+
+Based on your analysis, make a final decision on whether a continuity error exists in the story.
+
+Some tips and tricks for the task:
+- Pay attention to even little details in the story, the continuity errors often are not limited to the central plot point.
+- You might observe some logical error in the story, but make sure that it qualifies as a continuity error i.e. you should be able to find sentences in the story which have the error and the sentences with the original fact that was contradicted (see definitions below for a concrete example).
+
+
+Please format your response as follows:
+
+<response>
+<explanation>
+[Provide your explanation here, whether you found a continuity error or not]
+</explanation>
+
+<error_lines>
+[If applicable, quote the lines that introduce the continuity error]
+</error_lines>
+
+<contradicted_lines>
+[If applicable, quote the lines from earlier in the story that are contradicted by the error]
+</contradicted_lines>
+
+<decision>
+[State your final decision on whether a continuity error exists in the story. State "No continuity error found" if you think there is no continuity error.]
+</decision>
+</response>
